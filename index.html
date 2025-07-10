@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Chatbot simple</title>
+</head>
+<body>
+    <h1>Chatbot</h1>
+    <form id="chat-form">
+        <input type="text" id="message" placeholder="Escribe un mensaje...">
+        <button type="submit">Enviar</button>
+    </form>
+    <div id="response"></div>
+
+    <script>
+        const form = document.getElementById('chat-form');
+        form.onsubmit = async function(e) {
+            e.preventDefault();
+            const message = document.getElementById('message').value;
+            const res = await fetch('/chat', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: `message=${encodeURIComponent(message)}`
+            });
+            const data = await res.json();
+            document.getElementById('response').innerText = data.response;
+        }
+    </script>
+</body>
+</html>
+
